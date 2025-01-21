@@ -8,7 +8,7 @@ class MY_Controller extends CI_Controller {
     protected function check_session() {
         if ($this->session->userdata('id')=='') {
             // Set flashdata untuk pesan logout
-            $this->session->set_flashdata('message', 'Sesi Anda telah habis. Silakan login kembali.');
+            $this->session->set_flashdata('message', 'Sesi anda sudah habis. Silakan login kembali.');
             // Redirect ke halaman login
             redirect('C_Login');
         }
