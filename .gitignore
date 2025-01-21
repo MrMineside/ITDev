@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 .DS_Store
 
 application/cache/*
@@ -12,6 +13,8 @@ application/logs/*
 composer.lock
 tests/mocks/database/ci_test.sqlite
 =======
+=======
+>>>>>>> 0089014dbc38e42d4d6262aa4d81d890b1a4fb29
 */config/development
 */logs/log-*.php
 !*/logs/index.html
@@ -19,12 +22,16 @@ tests/mocks/database/ci_test.sqlite
 !system/cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+<<<<<<< HEAD
+>>>>>>> 0089014dbc38e42d4d6262aa4d81d890b1a4fb29
+=======
 >>>>>>> 0089014dbc38e42d4d6262aa4d81d890b1a4fb29
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
+<<<<<<< HEAD
 <<<<<<< HEAD
 /vendor/
 
@@ -43,6 +50,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 
 =======
+=======
+>>>>>>> 0089014dbc38e42d4d6262aa4d81d890b1a4fb29
 
 #codeigniter 3
 application/logs/*
@@ -50,4 +59,13 @@ application/logs/*
 !application/logs/.htaccess
 /vendor/
 
+<<<<<<< HEAD
 
+=======
+/application/config/config.php
+/application/config/database.php
+/application/logs/
+/vendor/
+/system/
+.env
+>>>>>>> 0089014dbc38e42d4d6262aa4d81d890b1a4fb29
