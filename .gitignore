@@ -16,3 +16,10 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+
+/application/config/config.php
+/application/config/database.php
+/application/logs/
+/vendor/
+/system/
+.env
