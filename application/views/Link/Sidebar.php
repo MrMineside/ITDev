@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-white elevation-4">
+<aside class="main-sidebar sidebar-light-info elevation-4 ">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link bg-dark">
+    <a href="#" class="brand-link">
       <img src="<?php echo base_url()?>assets/Image/rg title.png" alt="Raja Golf Logo" class="brand-image" style="opacity: .9;">
       <span class="brand-text font-weight-light">Office Raja Golf</span>
     </a>

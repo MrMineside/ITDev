@@ -23,15 +23,19 @@
     .bg-rg{
       background-color: #C99A45;
     }
-    /* Menyembunyikan elemen dengan kelas tertentu saat mencetak */
-    .no-print {
-                display: none !important;
-            }
+    @media print {
+      table.dataTable thead th:nth-child(2),  /* Sembunyikan kolom ID Task */
+      table.dataTable tbody td:nth-child(2),  /* Sembunyikan isi kolom ID Task */
+      table.dataTable thead th:nth-child(8),
+      table.dataTable tbody td:nth-child(8) {
+        display: none !important;
+      }
+    }
   </style>
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed accent-orange text-sm">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed accent-orange text-sm sidebar-collapse">
 <div class="wrapper">

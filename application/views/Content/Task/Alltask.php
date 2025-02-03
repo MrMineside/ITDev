@@ -141,7 +141,7 @@
                               // Tentukan ikon berdasarkan status
                               let icon = item.status == 1
                                   ? '<i class="fa fa-check-circle" title="Success" style="color: green;"></i> Success'
-                                  : '<i class="fa fa-spinner" title="Failed" style="color: red;"></i> Not Success';
+                                  : '<i class="fa fa-spinner" title="Failed" style="color: red;"></i> On Process';
 
                               // Cek apakah total_tarik adalah 0
                               let buttonClass = item.total_tarik == 0 ? 'disabled' : '';

@@ -13,7 +13,7 @@
                     <!-- Default box -->
                 <?php if ($this->session->userdata('divisi')=='IT'):?>
                     <div class="card shadow">
-                         <div class="card-header bg-dark">
+                         <div class="card-header">
                             <h3 class="card-title">
                             </h3>
                             <div class="card-tools">

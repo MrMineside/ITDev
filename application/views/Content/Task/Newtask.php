@@ -12,7 +12,7 @@
                 <div class="col-12">
                     <!-- Default box -->
                     <div class="card shadow">
-                         <div class="card-header bg-dark">
+                         <div class="card-header">
                             <h3 class="card-title">
                             </h3>
                             <div class="card-tools">
@@ -34,6 +34,7 @@
                                         
                                         </select>
                                     </div>
+                                    <p class="text-info"><i class="fa fa-exclamation" aria-hidden="true"></i>Silahkan Create Terlebih dahulu</p>
                                 </div>
                                 <div class="col-12 col-md-2">
                                     <input type="date" class="form-control form-control-sm" id="pilihtgl" name="pilihtgl" value="<?php echo date('Y-m-d')?>">
@@ -45,7 +46,7 @@
                 <div class="col-12">
                     <!-- Default box -->
                     <div class="card shadow" id="myCard">
-                        <div class="card-header bg-dark">
+                        <div class="card-header">
                             <div class="card-tools">
                                 
                             </div>
@@ -147,13 +148,11 @@ $(function () {
     });
 
     setInterval( function () {
-        datatask();
+        $('#example1').DataTable().ajax.reload(null, false);
     }, 10000 );
 
-    
-    op_store();
-    //datatask();
     fetchData();
+    op_store()
     opcreat();
 
     $('.card-title').html('Withdraw Sales');
@@ -202,8 +201,14 @@ $(function () {
     })
 
     $('#databaru').click(function(){
-        create();
+        fetchData();
     })
+
+    let selectedValue = $("#filter").val();
+    $("#idhead").val(selectedValue);
+    fetchData();
+    op_store()
+
 
     function create(){
         var type = $('#type').val();
@@ -240,7 +245,6 @@ $(function () {
                     $('#filter').empty(); // Kosongkan select option terlebih dahulu
 
                     if (data.length > 0) {
-                        $('#filter').append('<option value="">-- Pilih Data --</option>');
                         $.each(data, function(key, value) {
                             $('#filter').append('<option value="'+ value.id +'">Penarikan Jam :'+ value.jam +'</option>');
                         });
@@ -285,7 +289,7 @@ $(function () {
                     if (idhead=="") {
                         Toast.fire({
                             icon: 'error',
-                            title: 'Silahkan pilih data penarikan'
+                            title: 'Data penarikan belum di buat'
                         })
                         $('#simpandata').prop('disabled', true);
                     } else {
@@ -305,101 +309,97 @@ $(function () {
         var date = $('#pilihtgl').val();
         var type = $('#type').val();
         var idhead = $('#idhead').val();
-                var table = $('#example1').DataTable({
-                    'ajax': {
-                        'url': '<?php echo site_url('/C_Newtask/get_data'); ?>',
-                        'type': 'GET',
-                        'data': { 'date': date , 'type': type , 'idhead': idhead},
-                        'dataSrc': function(json) {
-                            if (json.status === 'no_data') {
-                                $('#no-data-notif').show();
-                                return [];
-                            } else {
-                                $('#no-data-notif').hide();
-                                return json.data;
-                            }
-                        },
-                        'error': function (xhr, error, code) {
-                            console.log('XHR:', xhr);
-                            console.log('Error:', error);
-                            console.log('Code:', code);
-                        }
-                    },
-                     'columns': [
-                        { 
-                            'data': null, 
-                            'render': function (data, type, row, meta) {
-                                return meta.row + 1; // Menambahkan nomor urut berdasarkan indeks baris
-                            }
-                        },
-                        { 'data': 'idtask' },
-                        { 'data': 'store_name' },
-                        { 'data': 'noremote' },
-                        { 
-                            'data': 'status',
-                            'render': function (data, type, row) {
-                                if (data == 1) {
-                                    return '<span class="icon">✔Success</span>';
-                                }else {
-                                    return '<span class="icon">✘Failed</span>';
-                                }
-                            }
-                        },
-                        { 'data': 'jam' },
-                        { 'data': 'name' },
-                        {
-                'data': null,
-                'render': function(data, type, row) {
-                    return '<button class="delete-btn btn btn-block bg-gradient-danger btn-sm" value="' + row.idtask + '">Delete</button>';
-                },
-                'orderable': false
-            }
-        ],
-        'columnDefs': [
-            {
-                'targets': [1], // Kolom ke-2 (index 1) yang akan disembunyikan dalam tampilan biasa
-                'visible': false // Menyembunyikan kolom ID dalam tampilan biasa
-            }
-        ],
-        'dom': 'Bfrtip', // Menambahkan tombol-tombol di atas tabel
-        'buttons': [
-            {
-                'extend': 'print',
-                'text': 'Print Report',
-                'exportOptions': {
-                    'columns': ':visible', // Mencetak semua kolom yang visible
-                    'modifier': {
-                        'className': 'no-print' // Tidak mencetak elemen dengan kelas no-print
+
+        var table = $('#example1').DataTable({
+            'ajax': {
+                'url': '<?php echo site_url('/C_Newtask/get_data'); ?>',
+                'type': 'GET',
+                'data': { 'date': date, 'type': type, 'idhead': idhead },
+                'dataSrc': function(json) {
+                    if (json.status === 'no_data') {
+                        $('#no-data-notif').show();
+                        return [];
+                    } else {
+                        $('#no-data-notif').hide();
+                        return json.data;
                     }
                 },
-                'customize': function(win) {
-                    // Menambahkan judul dan informasi tambahan pada printout
-                    $(win.document.body).prepend(
-                        '<h1>Report Tasksales</h1>' +
-                        '<p>Date: ' + new Date().toLocaleDateString() + '</p>'
-                    );
-
-                    // Gaya untuk judul dan informasi tambahan
-                    $(win.document.body).find('h1').css({
-                        'text-align': 'center',
-                        'font-size': '20px'
-                    });
-                    $(win.document.body).find('p').css({
-                        'text-align': 'center',
-                        'font-size': '14px'
-                    });
-
-                    // Gaya untuk tabel
-                    $(win.document.body).find('table').addClass('display').css('font-size', '14px');
-
-                    // Sembunyikan tombol delete saat print
-                    $(win.document.body).find('.delete-btn').css('display', 'none');
+                'error': function(xhr, error, code) {
+                    console.log('XHR:', xhr);
+                    console.log('Error:', error);
+                    console.log('Code:', code);
                 }
-            }
-        ],
-        'destroy': true // Mengizinkan DataTable untuk diinisialisasi ulang
-                });
-            }
+            },
+            'columns': [
+                { 
+                    'data': null, 
+                    'render': function (data, type, row, meta) {
+                        return meta.row + 1; // Menambahkan nomor urut berdasarkan indeks baris
+                    }
+                },
+                { 'data': 'idtask', 'visible': false }, // Tetap disembunyikan dalam tampilan biasa
+                { 'data': 'store_name' },
+                { 'data': 'noremote' },
+                { 
+                    'data': 'status',
+                    'render': function (data, type, row) {
+                        return data == 1 ? '<span class="icon">✔Success</span>' : '<span class="icon">✘Failed</span>';
+                    }
+                },
+                { 'data': 'jam' },
+                { 'data': 'name' },
+                {
+                    'data': null,
+                    'render': function(data, type, row) {
+                        return '<button class="delete-btn btn btn-block bg-gradient-danger btn-sm" value="' + row.idtask + '">Delete</button>';
+                    },
+                    'orderable': false // Kolom ini hanya disembunyikan saat print
+                }
+            ],
+            'dom': 'Bfrtip',
+            'buttons': [
+                {
+                    'extend': 'print',
+                    'text': 'Print Report',
+                    'exportOptions': {
+                        'columns': function(idx, data, node) {
+                            // Menyembunyikan kolom ID task (idx == 1) dan Action (idx == 7)
+                            return idx !== 1 && idx !== 7;
+                        }
+                    },
+                    'customize': function(win) {
+                        // Menambahkan judul dan informasi tambahan pada printout
+                        $(win.document.body).prepend(
+                            '<h1>Report Tasksales</h1>' +
+                            '<p>Date: ' + new Date().toLocaleDateString() + '</p>'
+                        );
+
+                        // Styling judul dan informasi tambahan
+                        $(win.document.body).find('h1').css({
+                            'text-align': 'center',
+                            'font-size': '20px'
+                        });
+                        $(win.document.body).find('p').css({
+                            'text-align': 'center',
+                            'font-size': '14px'
+                        });
+
+                        // Styling tabel
+                        $(win.document.body).find('table').addClass('display').css('font-size', '14px');
+
+                        // Sembunyikan tombol delete saat print
+                        $(win.document.body).find('.delete-btn').hide();
+                    }
+                }
+            ],
+            'destroy': true
+        });
+    }
+
+
+    window.addEventListener('afterprint', function() {
+        $('.delete-btn').show(); // Pastikan tombol delete muncul kembali setelah print
+    });
 
     $('#example1').on('click', '.delete-btn', function() {
                 var id = $(this).val(); // Mengambil ID dari kolom pertama
@@ -451,7 +451,7 @@ $(function () {
                     if (data.length > 0) {
                         $('#opstore').append('<option value="">-- Pilih Store --</option>');
                         $.each(data, function(key, value) {
-                            $('#opstore').append('<option value="'+ value.id_store +'">'+ value.store_name +'</option>');
+                            $('#opstore').append('<option value="'+ value.id_store +'">'+value.id_store+' - '+ value.store_name +'</option>');
                         });
                     } else {
                         $('#opstore').append('<option value="">-- Store Kosong --</option>');
